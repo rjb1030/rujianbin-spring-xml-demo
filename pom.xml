@@ -4,11 +4,12 @@
 
   <groupId>rujianbin.spring-xml</groupId>
   <artifactId>rujianbin-spring-xml-demo</artifactId>
-  <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>rujianbin-security-oauth2</module>
-    </modules>
-    <packaging>pom</packaging>
+  <version>1.0.0-SNAPSHOT</version>
+  <modules>
+      <module>rujianbin-security-oauth2</module>
+    <module>rujianbin-common-web</module>
+  </modules>
+  <packaging>pom</packaging>
 
   <name>rujianbin-spring-xml-demo</name>
 
@@ -50,12 +51,14 @@
     <!-- utils -->
     <poi.version>3.16</poi.version>
     <httpclient.version>4.2.3</httpclient.version>
-    <jackson.version>>2.8.1</jackson.version>
+    <jackson.version>2.8.1</jackson.version>
     <dom4j.version>1.6.1</dom4j.version>
     <google.guava.version>18.0</google.guava.version>
     <dozer.version>5.4.0</dozer.version>
-    <freemarker.version>2.3.19</freemarker.version>
+    <freemarker.version>2.3.23</freemarker.version>
     <jsoup.version>1.7.2</jsoup.version>
+    <compress-filter.version>1.7</compress-filter.version>
+    <kaptcha.version>2.3.2</kaptcha.version>
 
     <!-- db -->
     <mysql.connector.driver>5.1.41</mysql.connector.driver>
@@ -385,6 +388,18 @@
         <artifactId>jsoup</artifactId>
         <version>${jsoup.version}</version>
       </dependency>
+      <!-- utils compress-filter-->
+      <dependency>
+        <groupId>net.sourceforge.pjl-comp-filter</groupId>
+        <artifactId>pjl-comp-filter</artifactId>
+        <version>${compress-filter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.code.kaptcha</groupId>
+        <artifactId>kaptcha</artifactId>
+        <version>${kaptcha.version}</version>
+      </dependency>
+
 
 
 
