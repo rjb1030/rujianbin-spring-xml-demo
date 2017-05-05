@@ -19,7 +19,7 @@
     </script>
 </head>
 <body>
-<form action="" class="login" method="post">
+<form action="login" class="login" method="post">
     <h1>login page</h1>
     <input type="hidden"                        6
            name="${_csrf.parameterName}"

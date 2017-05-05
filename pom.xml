@@ -18,6 +18,7 @@
 
     <!-- springframework -->
     <spring.version>4.3.6.RELEASE</spring.version>
+    <spring-security.version>4.2.2.RELEASE</spring-security.version>
 
     <!-- spring data -->
     <spring-data-commons.version>1.12.5.RELEASE</spring-data-commons.version>
@@ -59,10 +60,14 @@
     <jsoup.version>1.7.2</jsoup.version>
     <compress-filter.version>1.7</compress-filter.version>
     <kaptcha.version>2.3.2</kaptcha.version>
+    <pagehelper.version>4.2.1</pagehelper.version>
 
     <!-- db -->
     <mysql.connector.driver>5.1.41</mysql.connector.driver>
     <druid.version>1.0.27</druid.version>
+    <c3p0.version>0.9.1.2</c3p0.version>
+    <mybatis.version>3.4.1</mybatis.version>
+    <mybatis-spring.version>1.3.0</mybatis-spring.version>
     <mongo-java-driver.version>3.4.0</mongo-java-driver.version>
 
   </properties>
@@ -249,6 +254,24 @@
 
 
 
+      <!-- springframework.security -->
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-config</artifactId>
+        <version>${spring-security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>${spring-security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>${spring-security.version}</version>
+      </dependency>
+
+
 
 
       <!-- commons -->
@@ -399,6 +422,12 @@
         <artifactId>kaptcha</artifactId>
         <version>${kaptcha.version}</version>
       </dependency>
+      <!-- utils pagehelper-->
+      <dependency>
+        <groupId>com.github.pagehelper</groupId>
+        <artifactId>pagehelper</artifactId>
+        <version>${pagehelper.version}</version>
+      </dependency>
 
 
 
@@ -416,6 +445,22 @@
         <artifactId>druid</artifactId>
         <version>${druid.version}</version>
       </dependency>
+      <dependency>
+        <groupId>c3p0</groupId>
+        <artifactId>c3p0</artifactId>
+        <version>${c3p0.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis</artifactId>
+        <version>${mybatis.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis-spring</artifactId>
+        <version>${mybatis-spring.version}</version>
+      </dependency>
+
       <!-- db mongodb -->
       <dependency>
         <groupId>org.mongodb</groupId>

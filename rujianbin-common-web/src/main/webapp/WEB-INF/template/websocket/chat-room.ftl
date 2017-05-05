@@ -4,9 +4,9 @@
     <title>socket.io 聊天室例子</title>
     <meta charset="utf-8">
 
-    <link rel="stylesheet" href="/rujianbin-provider/css/chat-room/reset.css"/>
-    <link rel="stylesheet" href="/rujianbin-provider/css/chat-room/bootstrap.css"/>
-    <link rel="stylesheet" href="/rujianbin-provider/css/chat-room/app.css"/>
+    <link rel="stylesheet" href="${webContext}/public/css/chat-room/reset.css"/>
+    <link rel="stylesheet" href="${webContext}/public/css/chat-room/bootstrap.css"/>
+    <link rel="stylesheet" href="${webContext}/public/css/chat-room/app.css"/>
 </head>
 <body>
 <div class="wrapper">
@@ -22,7 +22,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="/rujianbin-provider/js/websocket/chat-room.js"></script>
+<script type="text/javascript" src="${webContext}/public/js/websocket/chat-room.js"></script>
 <script type="text/javascript">
 
 

@@ -2,8 +2,8 @@
 <head>
     <meta charset="utf-8">
     <title>AdminPanel</title>
-    <link media="all" rel="stylesheet" type="text/css" href="css/home/all.css" />
-    <!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/home/ie.css" /><![endif]-->
+    <link media="all" rel="stylesheet" type="text/css" href="${webContext}/public/css/home/all.css" />
+    <!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="${webContext}/public/css/home/ie.css" /><![endif]-->
 </head>
 <body>
 <div id="wrapper">
@@ -175,9 +175,9 @@
         <span class="shadow"></span>
     </aside>
 </div>
-<script type="text/javascript" src="js/jquery/jquery-1.7.2.min.js"></script>
-<#--<script type="text/javascript" src="js/ajaxFileUpload/ajaxfileupload.js"></script>-->
-<script type="text/javascript" src="js/home/tab-change.js"></script>
-<script type="text/javascript" src="js/home/home.js"></script>
+<script type="text/javascript" src="${webContext}/public/js/jquery/jquery-1.7.2.min.js"></script>
+<#--<script type="text/javascript" src="${webContext}/public/js/ajaxFileUpload/ajaxfileupload.js"></script>-->
+<script type="text/javascript" src="${webContext}/public/js/home/tab-change.js"></script>
+<script type="text/javascript" src="${webContext}/public/js/home/home.js"></script>
 </body>
 </html>
