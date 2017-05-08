@@ -61,7 +61,7 @@
 		<property name="maxInactiveIntervalInSeconds" value="600"></property>
 	</bean>
 
-	<!-- 让Spring Session不再执行config命令 -->
-	<util:constant static-field="org.springframework.session.data.redis.config.ConfigureRedisAction.NO_OP"/>
+	<!--在使用腾讯云或阿里云服务的时候可能会出现如下错误Unable to configure Redis to keyspace notifications。实际上这种异常发生的原因是，很多Redis云服务提供商考虑到安全因素，会禁用掉Redis的config命令。 让Spring Session不再执行config命令 -->
+	<!--<util:constant static-field="org.springframework.session.data.redis.config.ConfigureRedisAction.NO_OP"/>-->
 
 </beans>
