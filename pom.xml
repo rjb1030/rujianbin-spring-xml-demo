@@ -25,7 +25,8 @@
     <spring-data-mongodb.version>1.9.5.RELEASE</spring-data-mongodb.version>
     <spring-data-elasticsearch.version>2.0.2.RELEASE</spring-data-elasticsearch.version>
     <IKAnalyzer.version>3.2.8</IKAnalyzer.version>
-    <spring-data-Redis.version>1.7.2.RELEASE</spring-data-Redis.version>
+    <spring-data-redis.version>1.7.2.RELEASE</spring-data-redis.version>
+    <spring-session-data-redis.version>1.2.2.RELEASE</spring-session-data-redis.version>
 
     <!-- commons -->
     <commons-dbcp.version>1.4</commons-dbcp.version>
@@ -236,9 +237,14 @@
         <version>${IKAnalyzer.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.springframework.session</groupId>
+        <artifactId>spring-session-data-redis</artifactId>
+        <version>${spring-session-data-redis.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-Redis</artifactId>
-        <version>${spring-data-Redis.version}</version>
+        <artifactId>spring-data-redis</artifactId>
+        <version>${spring-data-redis.version}</version>
         <exclusions>
           <exclusion>
             <artifactId>org.springframework</artifactId>

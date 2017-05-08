@@ -20,7 +20,7 @@
                 <div class="profile-box">
 						<span class="profile">
 							<a href="#" class="section">
-								<img class="image" src="images/home/img1.png" alt="image description" width="26" height="26" />
+								<img class="image" src="${webContext}/public/images/home/img1.png" alt="image description" width="26" height="26" />
 								<span class="text-box">
 									Welcome
 									<strong class="name">${user}</strong>
@@ -28,14 +28,14 @@
 							</a>
 							<a href="#" class="opener">opener</a>
 						</span>
-                    <a href="/rujianbin-provider/login/logout" id="logout" class="btn-on">logout</a>
+                    <a href="${webContext}/login/logout" id="logout" class="btn-on">logout</a>
                 </div>
             </div>
             <div class="tabs">
                 <div id="tab-1" class="tab">
                     <article>
                         <div class="text-section">
-                            <h1>Dashboard</h1>
+                            <h1>Dashboard1</h1>
                             <p>This is a quick overview of some features</p>
                         </div>
                         <ul class="states">
@@ -50,7 +50,7 @@
                 <div id="tab-2" class="tab">
                     <article>
                         <div class="text-section">
-                            <h1>Dashboard</h1>
+                            <h1>Dashboard2</h1>
                             <p>This is a quick overview of some features</p>
                         </div>
                         <ul class="states">
@@ -63,7 +63,7 @@
                 <div id="tab-3" class="tab">
                     <article>
                         <div class="text-section">
-                            <h1>Dashboard</h1>
+                            <h1>Dashboard3</h1>
                             <p>This is a quick overview of some features</p>
                         </div>
                         <ul class="states">
@@ -76,7 +76,7 @@
                 <div id="tab-4" class="tab">
                     <article>
                         <div class="text-section">
-                            <h1>Dashboard</h1>
+                            <h1>Dashboard4</h1>
                             <p>This is a quick overview of some features</p>
                         </div>
                         <ul class="states">
@@ -89,7 +89,7 @@
                 <div id="tab-5" class="tab">
                     <article>
                         <div class="text-section">
-                            <h1>Dashboard</h1>
+                            <h1>Dashboard5</h1>
                             <p>This is a quick overview of some features</p>
                         </div>
                         <ul class="states">
@@ -102,7 +102,7 @@
                 <div id="tab-6" class="tab">
                     <article>
                         <div class="text-section">
-                            <h1>Dashboard</h1>
+                            <h1>Dashboard6</h1>
                             <p>This is a quick overview of some features</p>
                         </div>
                         <ul class="states">
@@ -114,13 +114,13 @@
                 </div>
                 <div id="tab-7" class="tab">
                         <div style="width:700px;height:450px;margin:0 auto;">
-                            <iframe src="/rujianbin-provider/home/chat-room" style="width:700px;height:450px;"></iframe>
+                            <iframe src="${webContext}/home/chat-room" style="width:700px;height:450px;"></iframe>
                         </div>
                 </div>
                 <div id="tab-8" class="tab">
                     <article>
                         <div class="text-section">
-                            <h1>Dashboard</h1>
+                            <h1>Dashboard8</h1>
                             <p>This is a quick overview of some features</p>
                         </div>
                         <ul class="states">

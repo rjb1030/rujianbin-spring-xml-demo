@@ -15,6 +15,18 @@
         </param-value>
     </context-param>
 
+    <!-- session存入redis -->
+    <filter>
+        <filter-name>springSessionRepositoryFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSessionRepositoryFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
     <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -31,6 +43,7 @@
     <filter-name>encodingFilter</filter-name>
     <url-pattern>*</url-pattern>
     </filter-mapping>
+
 
     <!-- spring-security的配置是由HttpSecurityBeanDefinitionParser解析器解析，每一个http都会被解析成一个SecurityFilterChain都添加到FilterChainProxy中的filterChains中。而且该FilterChainProxy会以springSecurityFilterChain注册到spring的bean中  -->
     <filter>

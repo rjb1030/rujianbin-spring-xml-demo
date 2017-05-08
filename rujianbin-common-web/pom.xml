@@ -54,7 +54,11 @@
         <!-- spring data -->
         <dependency>
             <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-Redis</artifactId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
         </dependency>
 
 
