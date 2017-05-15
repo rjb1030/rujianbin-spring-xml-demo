@@ -37,22 +37,23 @@
     </oauth2:authorization-server>
 
     <!-- 使用数据库配置clientdetails和token   ClientDetailsService 配置, 使用JdbcClientDetailsService, 也需要提供dataSource-->
-    <!--<beans:bean id="jdbcClientDetailsService"
+    <beans:bean id="jdbcClientDetailsService"
                 class="org.springframework.security.oauth2.provider.client.JdbcClientDetailsService">
         <beans:constructor-arg ref="dataSource" />
     </beans:bean>
     <beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.JdbcTokenStore">
         <beans:constructor-arg ref="dataSource" />
-    </beans:bean>-->
+    </beans:bean>
 
 
-    <beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore" />
+    <!-- 使用内存型的 clientdetails和token -->
+    <!--<beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore" />
     <oauth2:client-details-service id="jdbcClientDetailsService">
         <oauth2:client client-id="m1"
                        authorized-grant-types="password,authorization_code,refresh_token,implicit,client_credentials"
                        secret="s1" scope="read,write,trust" authorities="p1:f1:edit"
-                       resource-ids="rujianbin-oauth2-resource" />
-    </oauth2:client-details-service>
+                       resource-ids="rujianbin-oauth2-resource"/>
+    </oauth2:client-details-service>-->
 
     <!--TokenServices; 需要注入TokenStore-->
     <beans:bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
