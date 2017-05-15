@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
+             xsi:schemaLocation="
+             http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security-4.2.xsd
+             http://www.springframework.org/schema/security/oauth2
+             http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
+
+    <beans:bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <beans:property name="driverClass" value="${jdbc.driver}" />
+        <beans:property name="jdbcUrl" value="${jdbc.url}" />
+        <beans:property name="user" value="${jdbc.username}" />
+        <beans:property name="password" value="${jdbc.password}" />
+        <beans:property name="initialPoolSize" value="${jdbc.connection_pools.initial_pool_size}" />
+        <beans:property name="minPoolSize" value="${jdbc.connection_pools.min_pool_size}" />
+        <beans:property name="maxPoolSize" value="${jdbc.connection_pools.max_pool_size}" />
+        <beans:property name="maxIdleTime" value="${jdbc.connection_pools.max_idle_time}" />
+        <beans:property name="acquireIncrement" value="${jdbc.connection_pools.acquire_increment}" />
+        <beans:property name="checkoutTimeout" value="${jdbc.connection_pools.checkout_timeout}" />
+    </beans:bean>
+
+    <!--  ==============================  -->
+    <!--  OAUTH 2 : AUTHORIZATION SERVER  -->
+    <!-- http://127.0.0.1:8080/rujianbin-oauth2/oauth/token?client_id=client_rjb&client_secret=123456&grant_type=client_credentials -->
+    <!--  ==============================  -->
+    <oauth2:authorization-server client-details-service-ref="jdbcClientDetailsService" token-services-ref="tokenServices">
+        <oauth2:authorization-code />
+        <oauth2:implicit/>
+        <oauth2:refresh-token />
+        <oauth2:client-credentials/>
+        <oauth2:password />
+    </oauth2:authorization-server>
+
+    <!-- 使用数据库配置clientdetails和token   ClientDetailsService 配置, 使用JdbcClientDetailsService, 也需要提供dataSource-->
+    <beans:bean id="jdbcClientDetailsService"
+                class="org.springframework.security.oauth2.provider.client.JdbcClientDetailsService">
+        <beans:constructor-arg ref="dataSource" />
+    </beans:bean>
+    <beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.JdbcTokenStore">
+        <beans:constructor-arg ref="dataSource" />
+    </beans:bean>
+
+
+    <!-- 使用内存型的 clientdetails和token -->
+    <!--<beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore" />
+    <oauth2:client-details-service id="jdbcClientDetailsService">
+        <oauth2:client client-id="m1"
+                       authorized-grant-types="password,authorization_code,refresh_token,implicit,client_credentials"
+                       secret="s1" scope="read,write,trust" authorities="p1:f1:edit"
+                       resource-ids="rujianbin-oauth2-resource"/>
+    </oauth2:client-details-service>-->
+
+    <!--TokenServices; 需要注入TokenStore-->
+    <beans:bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+        <beans:property name="tokenStore" ref="tokenStore" />
+        <beans:property name="supportRefreshToken" value="true" />
+        <beans:property name="clientDetailsService" ref="jdbcClientDetailsService"/>
+        <beans:property name="accessTokenValiditySeconds" value="60" />
+        <beans:property name="refreshTokenValiditySeconds" value="300" />
+    </beans:bean>
+
+
+    <!--ClientDetailsUserDetailsService配置, 该类实现了Spring security中 UserDetailsService 接口-->
+    <beans:bean id="clientDetailsUserService" class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+        <beans:constructor-arg ref="jdbcClientDetailsService"/>
+    </beans:bean>
+
+    <!--OAuth2AuthenticationEntryPoint配置-->
+    <beans:bean id="oauth2AuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <beans:property name="realmName" value="rujianbin-authorized-server" />
+    </beans:bean>
+    <!--oauth2 AuthenticationManager配置; 在整个配置中,有两个AuthenticationManager需要配置-->
+    <authentication-manager id="oauth2AuthenticationManager">
+        <authentication-provider user-service-ref="clientDetailsUserService"/>
+    </authentication-manager>
+
+
+    <!--OAuth2AccessDeniedHandler配置, 实现AccessDeniedHandler接口-->
+    <beans:bean id="oauth2AccessDeniedHandler"
+                class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler"/>
+
+    <!--UserApprovalHandler配置, 这儿使用DefaultUserApprovalHandler, 这里是实现client是否可信任的关键点,你可以扩展该接口来自定义approval行为-->
+    <beans:bean id="oauthUserApprovalHandler" class="org.springframework.security.oauth2.provider.approval.DefaultUserApprovalHandler">
+    </beans:bean>
+
+
+    <!--ClientCredentialsTokenEndpointFilter配置, 该Filter将作用于Spring Security的chain 链条中-->
+    <beans:bean id="clientCredentialsTokenEndpointFilter"
+                class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
+        <beans:property name="authenticationManager" ref="oauth2AuthenticationManager"/>
+    </beans:bean>
+
+    <!--/oauth/token 的http 配置, 用于监听该URL的请求, 核心-->
+    <http pattern="/oauth/token" create-session="stateless" authentication-manager-ref="oauth2AuthenticationManager"
+          entry-point-ref="oauth2AuthenticationEntryPoint">
+        <intercept-url pattern="/oauth/token" access="authenticated" method="POST"/>
+        <anonymous enabled="false"/>
+        <http-basic entry-point-ref="oauth2AuthenticationEntryPoint"/>
+
+        <custom-filter ref="clientCredentialsTokenEndpointFilter" before="BASIC_AUTH_FILTER"/>
+        <access-denied-handler ref="oauth2AccessDeniedHandler"/>
+        <csrf disabled="true"></csrf>
+    </http>
+
+</beans:beans>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+      http://www.springframework.org/schema/security
+      http://www.springframework.org/schema/security/spring-security-4.2.xsd ">
+
+    <beans:import resource="application-security-oauth2-resources.xml"/>
+
+    <!-- 静态资源，不用权限 -->
+    <http pattern="/public/**" security="none"/>
+    <http pattern="/favicon.ico" security="none"/>
+
+
+    <http use-expressions="true" authentication-manager-ref="authenticationManager">
+        <!--
+        access 可以使用spel表达式和属性
+        hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_CUST_ADMIN')
+        hasRole('ROLE_ANONYMOUS')
+        permitAll  任何用户均可访问
+        denyAll    任何用户均不可访问
+        anonymous  匿名用户可访问
+        authenticated   检查用户是否认证过
+        rememberMe     检查用户是否通过 remember me 功能认证的
+        fullyAuthenticated   检查用户是否通过提供完整的凭证信息来认证的
+         -->
+        <intercept-url pattern="/login/**"  access="permitAll()"/>
+        <intercept-url pattern="/common/**" access="permitAll()"  />
+        <intercept-url pattern="/websocket/**" access="permitAll()" />
+        <intercept-url pattern="/home/**" access="hasAuthority('p1:f1:read')" />
+        <intercept-url pattern="/**" access="authenticated"/>
+        <form-login login-page="/login?no-permit"
+                    login-processing-url="/login"
+                    authentication-success-handler-ref="myLoginSuccessHandler"
+                    authentication-failure-handler-ref="myLoginFailureHandler"
+                    authentication-details-source-ref="myAuthenticationDetailsSource"/>
+        <logout invalidate-session="true"
+                delete-cookies="ck_u"
+                logout-url="/login/logout"
+                success-handler-ref="myLogoutSuccessHandle"/>
+        <access-denied-handler error-page="/common/403"/>
+        <csrf disabled="false"/>
+        <headers>
+            <!-- 是否允许iframe嵌入 DENY,SAMEORIGIN,ALLOW-FROM-->
+            <frame-options policy="SAMEORIGIN" />
+        </headers>
+        <session-management session-authentication-error-url="/login?auth-error"
+                            invalid-session-url="/login?invalid-session">
+            <!--org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy
+里面的checkAuthenticationAllowed方法，调用了sessionRegistry.getAllSessions,用authentication.getPrincipal()，也就是UserDetails实现对象。
+但是sessionRegistry存储的时候使用的是Hash的数据结构，所以UserDetails实现类必须重写equals和hashCode -->
+            <!-- max-sessions只容许一个账号登录，error-if-maximum-exceeded=false 后面账号登录后踢出前一个账号，expired-url session过期跳转界面 -->
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="false" expired-url="/login?session-timeout"/>
+        </session-management>
+
+    </http>
+
+
+
+    <beans:bean id="myLoginSuccessHandler" class="com.rujianbin.common.web.security.MyLoginSuccessHandler">
+        <beans:constructor-arg name="defaultTargetUrl" value="/home" />
+    </beans:bean>
+
+    <beans:bean id="myLoginFailureHandler" class="com.rujianbin.common.web.security.MyLoginFailureHandler">
+        <beans:constructor-arg name="defaultTargetUrl" value="/login?error=" />
+    </beans:bean>
+
+    <beans:bean id="myLogoutSuccessHandle" class="com.rujianbin.common.web.security.MyLogoutSuccessHandle">
+        <beans:constructor-arg name="defaultTargetUrl" value="/login?logout" />
+    </beans:bean>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider ref="daoAuthenticationProvider" />
+    </authentication-manager>
+
+    <beans:bean id="daoAuthenticationProvider" class="com.rujianbin.common.web.security.MyDaoAuthenticationProvider">
+        <!-- 是否显示示用戶名不存在信息 -->
+        <beans:property name="hideUserNotFoundExceptions" value="false"/>
+        <beans:property name="userDetailsService" ref="rjbUserDetailsService"/>
+        <beans:property name="passwordEncoder" ref="md5Encoder"/>
+    </beans:bean>
+
+    <beans:bean id="md5Encoder" class="com.rujianbin.common.web.security.MyPasswordEncoder" />
+
+    <beans:bean id="myAuthenticationDetailsSource" class="com.rujianbin.common.web.security.MyAuthenticationDetailsSource" />
+
+    <beans:bean id="rjbUserDetailsService" class="com.rujianbin.common.web.security.RjbUserDetailsService"/>
+
+    <!--<beans:bean id="authenticationProcessingFilterEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">-->
+        <!--<beans:constructor-arg name="loginFormUrl" value="/user/login.htm" />-->
+    <!--</beans:bean>-->
+
+    <!-- 配置自定义过滤器 -->
+    <!--<beans:bean id="loginFilter" class="com.test.security.LoginFilter">-->
+        <!--<beans:property name="filterProcessesUrl" value="/login.json"/>-->
+        <!--<beans:property name="usernameParameter" value="userName"/>-->
+        <!--<beans:property name="authenticationManager" ref="authenticationManager"/>-->
+        <!--<beans:property name="authenticationSuccessHandler" ref="authenticationSuccessHandler"/>-->
+        <!--<beans:property name="authenticationFailureHandler" ref="authenticationFailureHandler"/>-->
+    <!--</beans:bean>-->
+
+
+
+</beans:beans>
