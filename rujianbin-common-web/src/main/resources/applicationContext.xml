@@ -61,6 +61,21 @@
 		<property name="maxInactiveIntervalInSeconds" value="600"></property>
 	</bean>
 
+	<!-- 全局的异常处理 配置返回页面-->
+	<!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+		<!--&lt;!&ndash; 定义默认的异常处理页面，当该异常类型的注册时使用 &ndash;&gt;-->
+		<!--<property name="defaultErrorView" value="error"></property>-->
+		<!--&lt;!&ndash; 定义异常处理页面用来获取异常信息的变量名，默认名为exception &ndash;&gt;-->
+		<!--<property name="exceptionAttribute" value="ex"></property>-->
+		<!--&lt;!&ndash; 定义需要特殊处理的异常，用类名或完全路径名作为key，异常也页名作为值 &ndash;&gt;-->
+		<!--<property name="exceptionMappings">-->
+			<!--<props>-->
+				<!--<prop key="IOException">error/ioexp</prop>-->
+				<!--<prop key="java.sql.SQLException">error/sqlexp</prop>-->
+			<!--</props>-->
+		<!--</property>-->
+	<!--</bean>-->
+
 	<!--在使用腾讯云或阿里云服务的时候可能会出现如下错误Unable to configure Redis to keyspace notifications。实际上这种异常发生的原因是，很多Redis云服务提供商考虑到安全因素，会禁用掉Redis的config命令。 让Spring Session不再执行config命令 -->
 	<!--<util:constant static-field="org.springframework.session.data.redis.config.ConfigureRedisAction.NO_OP"/>-->
 
