@@ -74,7 +74,7 @@
     <beans:bean id="oauth2AuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <beans:property name="realmName" value="rujianbin-authorized-server" />
     </beans:bean>
-    <!--oauth2 AuthenticationManager配置; 在整个配置中,有两个AuthenticationManager需要配置-->
+    <!--oauth2 AuthenticationManager配置; -->
     <authentication-manager id="oauth2AuthenticationManager">
         <authentication-provider user-service-ref="clientDetailsUserService"/>
     </authentication-manager>
