@@ -63,6 +63,6 @@ create index token_id_index on oauth_refresh_token (token_id);
 
 create index code_index on oauth_code (code);
 
-INSERT INTO `oauth_client_details` VALUES ('client_rjb', 'unity-resource', '123456', 'read,write', 'authorization_code,refresh_token,implicit,client_credentials', null, 'ROLE_CLIENT', null, null, null, '2017-05-15 13:46:05', '0', '0', 'false');
+INSERT INTO `oauth_client_details` VALUES ('client_rjb', 'rujianbin-oauth2-resource', '123456', 'read,write', 'authorization_code,refresh_token,implicit,client_credentials', null, 'p1:f1:read', null, null, null, '2017-05-15 13:46:05', '0', '0', 'false');
 
 
