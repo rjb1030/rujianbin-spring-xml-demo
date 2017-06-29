@@ -18,14 +18,22 @@
  */
 package com.rujianbin.common.web.util;
 
+import org.apache.activemq.transport.tcp.ExceededMaximumConnectionsException;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
-import java.io.ByteArrayOutputStream;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 
 /**
  * RSA加解密
@@ -40,6 +48,7 @@ public final class RSAUtils {
 	/** 密钥大小 */
 	private static final int		KEY_SIZE	= 1024;
 
+	//算法名称/加密模式/填充方式
 	private static final String ALGORITHM = "RSA/ECB/PKCS1Padding";
 
 	public static final String PRIVATE_KEY_SESSION_ATTRIBUTE_NAME = "session_privateKey";
@@ -159,6 +168,89 @@ public final class RSAUtils {
 	public static String decrypt(PrivateKey privateKey, String text) {
 		byte[] data = crypt(Base64.decodeBase64(text),false,privateKey);
 		return data != null ? new String(data) : null;
+	}
+
+
+	private static String getKeyStr(File file) throws IOException {
+
+		try {
+			BufferedReader bf=new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+			//最好在将字节流转换为字符流的时候 进行转码
+			StringBuffer buffer=new StringBuffer();
+			String line;
+			while((line=bf.readLine())!=null){
+				buffer.append(line);
+			}
+
+			return buffer.toString();
+		} catch (IOException e) {
+			throw e;
+		}
+	}
+
+	public static void main(String[] args) throws Exception{
+
+		//直接生成公钥和私钥文件
+		String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+		String realPath = path.substring(0,path.indexOf("/target"));
+		System.out.println(realPath);
+
+		String prkPath = realPath+"/other/privateKey.ser";
+		String pukPath = realPath+"/other/publicKey.ser";
+
+//		//####################   生产公钥和私钥文件    ####################
+//		KeyPair keyPair = 	RSAUtils.generateKeyPair();
+//
+//		RSAPublicKey publicKey  = (RSAPublicKey)keyPair.getPublic() ;
+//		RSAPrivateKey privateKey =(RSAPrivateKey) keyPair.getPrivate() ;
+//
+//		FileOutputStream fs = new FileOutputStream(prkPath);
+//		PrintStream ps = new PrintStream(fs);
+//		ps.print(Base64.encodeBase64String(privateKey.getEncoded()));
+//
+//		FileOutputStream fs2 = new FileOutputStream(pukPath);
+//		PrintStream ps2 = new PrintStream(fs2);
+//		ps2.print(Base64.encodeBase64String(publicKey.getEncoded()));
+//		//####################   生产公钥和私钥文件    ####################
+
+
+
+		//####################  读取公钥和私钥文件    ####################
+		String pukKey = getKeyStr(new File(pukPath));
+		X509EncodedKeySpec x509 = new X509EncodedKeySpec(Base64.decodeBase64(pukKey));
+		KeyFactory keyf = KeyFactory.getInstance("RSA");
+		PublicKey temp_publicKey = keyf.generatePublic(x509);
+
+		String prkKey = getKeyStr(new File(prkPath));
+		PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.decodeBase64(prkKey));
+		PrivateKey temp_privateKey = keyf.generatePrivate(priPKCS8);
+		//####################  读取公钥和私钥文件    ####################
+
+
+		//####################  操作加解密    ####################
+		String ori = "你好1234";
+		String  encodeStr = RSAUtils.encrypt(temp_publicKey,ori);
+		System.out.println(encodeStr);
+		String ori2 = RSAUtils.decrypt(temp_privateKey, encodeStr);
+		System.out.println(ori2);
+		//####################  操作加解密    ####################
+
+//		X509EncodedKeySpec x509 = new X509EncodedKeySpec(org.apache.commons.net.util.Base64.decodeBase64("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCTZLQ/VyieBnI26BCb59cLUGOcupH/Ei4tgpYL2B6nnNSQzZ2J89WzaMYZmOefemVxkZlHtB8WHSSB3KDLdXa26MZx50ABgOUKriQinSqKqhjK4wfqmh1M+rx+bPLroUWHGWbNnddsG1rcnXahtM54xQyJPVzht0FNpcg07aXVAQIDAQAB"));
+//		KeyFactory keyf = KeyFactory.getInstance("RSA");
+//		PublicKey publicKey = keyf.generatePublic(x509);
+//		PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(org.apache.commons.net.util.Base64.decodeBase64("MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJNktD9XKJ4GcjboEJvn1wtQY5y6kf8SLi2ClgvYHqec1JDNnYnz1bNoxhmY5596ZXGRmUe0HxYdJIHcoMt1drboxnHnQAGA5QquJCKdKoqqGMrjB+qaHUz6vH5s8uuhRYcZZs2d12wbWtyddqG0znjFDIk9XOG3QU2lyDTtpdUBAgMBAAECgYBZAlKbga4EqE3m/IOzMvG5YmWVa1HpYHhEgXzNUElK3Tm87H67pWWjP52KLb2KoGaMi+mt1IeFWjoGtk7gL2JtrPJmedOJEVI887ArczTVx5Ov4jsvyHZZaaoZGcGthXOMBkg3dn7mXQJ+hwZ+bsbMwbtOQWWLBJPh2UZp1KP2pQJBANhModzFW+gNITWGHrR24mRG4HbZV1vjxFptI9ntc/tszibbivb6Os/eft6U5Nl289suijBCOMmFnlsD0sxr9lcCQQCucloTQAs3clmOXqS3sFh4KRmwD5dnjpZpCL8JOEz+jcbFgmghsLDb3IqZxBVmqc6Ikaz5vTH6+ygLDuEVtQhnAkEA0v7eHng/UTwNmyK8LRqTeXJSYF1fhHnI/tTcVif2LdtTtkAPbSFn4YKPjBz+qMwK0VKy5qSStLKtaOdv6I2gfQJBAJxiOOuu6x8+rJgbsjBVr0mxFq0lnQYh5iasx409YpCEip+/AxjIrBO9RqcICGNrcJIvfdC4Udj8VG5tXUy3aJsCQGBzhvbzHeD9DgzCk/IjeQzyyqR+Lnq3fBB/n9ucufJvyrGyrLeRFipNLgoyJVs4E/t8DapR9p81JVlzElimafE="));
+//		PrivateKey privateKey = keyf.generatePrivate(priPKCS8);
+//
+//		String  after = RSAUtils.encrypt(publicKey, "330406108547");
+
+
+		//		Cipher cipher = Cipher.getInstance("RSA");
+//		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+//		String  after = Base64.encodeBase64String(cipher.doFinal("330406108547".getBytes()));
+//
+//		String after3 = Base64.encodeBase64String(RSAUtils.encrypt(publicKey, "330406108547".getBytes()));
+
+//		System.out.println((RSAUtils.decrypt(privateKey, after)));
 	}
 
 }
