@@ -64,6 +64,7 @@
     <compress-filter.version>1.7</compress-filter.version>
     <kaptcha.version>2.3.2</kaptcha.version>
     <pagehelper.version>4.2.1</pagehelper.version>
+    <bcprov-jdk15on.version>1.57</bcprov-jdk15on.version>
 
     <!-- db -->
     <mysql.connector.driver>5.1.41</mysql.connector.driver>
@@ -476,6 +477,12 @@
         <groupId>com.github.pagehelper</groupId>
         <artifactId>pagehelper</artifactId>
         <version>${pagehelper.version}</version>
+      </dependency>
+      <!-- utils-bcprov -->
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk15on</artifactId>
+        <version>${bcprov-jdk15on.version}</version>
       </dependency>
 
 

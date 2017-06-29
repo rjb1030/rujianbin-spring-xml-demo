@@ -9,12 +9,26 @@
     <title>Login Page</title>
     <link rel="stylesheet" href="${webContext}/public/css/login/login.css">
     <script type="text/javascript" src="${webContext}/public/js/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="${webContext}/public/js/encryption/encryption.js"></script>
     <script type="text/javascript">
         $(function(){
             $('#kaptcha').click(function(){
                         var _t='common/kaptcha?'+new Date().getTime();
                         $(this).attr("src",_t);
             });
+
+            $("#submitBtn").click(function(){
+                $.get("common/publicKey?"+new Date().getTime(),function(data){
+                    var modulus = data.modulus;
+                    var exponent = data.exponent;
+                    var t_password = $("#t_password").val();
+                    var rsaKey = new RSAKey();
+                    rsaKey.setPublic(b64tohex(modulus), b64tohex(exponent));
+                    var enPassword = hex2b64(rsaKey.encrypt(t_password));
+                    $("#password").val(enPassword);
+                    $("form").submit();
+                })
+            })
         })
     </script>
 </head>
@@ -25,12 +39,13 @@
            name="${_csrf.parameterName}"
            value="${_csrf.token}"/>
     <input type="text" name="username" class="login-input" placeholder="Username" autofocus>
-    <input type="password" name="password" class="login-input" placeholder="Password">
+    <input type="password" id="t_password" class="login-input" placeholder="Password">
+    <input type="hidden" name="password" id="password" class="login-input" >
     <div>
         <input type="text" name="vCode" class="login-input" style="display: inline;width: 90px;" placeholder="验证码">
         <img src="common/kaptcha" id="kaptcha" style="width:100px;float:right;">
     </div>
-    <input type="submit" value="Login" class="login-submit">
+    <input type="button" id="submitBtn" value="Login" class="login-submit">
     <p class="login-help"><a target="_blank" href="http://www.baidu.com">Forgot password?</a></p>
 </form>
 

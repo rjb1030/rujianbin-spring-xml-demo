@@ -12,9 +12,10 @@
     <!-- 静态资源，不用权限 -->
     <http pattern="/public/**" security="none"/>
     <http pattern="/favicon.ico" security="none"/>
-
-
-    <http use-expressions="true" authentication-manager-ref="authenticationManager">
+    <!-- auto-config='true'默认会配置login form，BASIC authentication，logout三个过滤器，如果置成false，3个过滤器要自己写，即custom-filter-->
+    <!-- 需要替换的Filter顺序，配置自定义custom-filter时必须蔣auto-config="false"，不然会报已经存在同样的过滤器错误-->
+    <!-- 配置自定义loginFilter时entry-point-ref配置未登录的切点：为了在未登陆的时候，跳转到哪个页面，等于form-login标签的login-page属性-->
+    <http use-expressions="true" auto-config="false" authentication-manager-ref="authenticationManager" entry-point-ref="authenticationEntryPoint">
         <!--
         access 可以使用spel表达式和属性
         hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_CUST_ADMIN')
@@ -31,15 +32,22 @@
         <intercept-url pattern="/websocket/**" access="permitAll()" />
         <intercept-url pattern="/home/**" access="hasAuthority('p1:f1:read')" />
         <intercept-url pattern="/**" access="authenticated"/>
-        <form-login login-page="/login?no-permit"
-                    login-processing-url="/login"
-                    authentication-success-handler-ref="myLoginSuccessHandler"
-                    authentication-failure-handler-ref="myLoginFailureHandler"
-                    authentication-details-source-ref="myAuthenticationDetailsSource"/>
-        <logout invalidate-session="true"
-                delete-cookies="ck_u"
-                logout-url="/login/logout"
-                success-handler-ref="myLogoutSuccessHandle"/>
+
+        <!-- 使用标签形式组装FORM_LOGIN_FILTER  或者自定义-->
+        <!--<form-login login-page="/login?no-permit"-->
+                    <!--login-processing-url="/login"-->
+                    <!--authentication-success-handler-ref="myLoginSuccessHandler"-->
+                    <!--authentication-failure-handler-ref="myLoginFailureHandler"-->
+                    <!--authentication-details-source-ref="myAuthenticationDetailsSource"/>-->
+        <custom-filter ref="myLoginFilter" position="FORM_LOGIN_FILTER"/>
+
+        <!-- 使用标签形式组装LOGOUT_FILTER  或者自定义-->
+        <!--<logout invalidate-session="true"-->
+                <!--delete-cookies="ck_u"-->
+                <!--logout-url="/login/logout"-->
+                <!--success-handler-ref="myLogoutSuccessHandle"/>-->
+        <custom-filter ref="myLogoutFilter" position="LOGOUT_FILTER"/>
+
         <access-denied-handler error-page="/common/403"/>
         <csrf disabled="false"/>
         <headers>
@@ -57,7 +65,53 @@
 
     </http>
 
+<!-- 自定义from-login Filter -->
+    <beans:bean id="authenticationEntryPoint"
+          class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <beans:constructor-arg name="loginFormUrl" value="/login?no-permit" />
+    </beans:bean>
 
+    <!-- 登录验证器 -->
+    <beans:bean id="myLoginFilter"
+                class="com.rujianbin.common.web.security.MyUsernamePasswordAuthenticationFilter">
+        <!-- 处理登录的action -->
+        <beans:property name="filterProcessesUrl" value="/login"></beans:property>
+        <!-- 验证成功后的处理-->
+        <beans:property name="authenticationSuccessHandler" ref="myLoginSuccessHandler"></beans:property>
+        <!-- 验证失败后的处理-->
+        <beans:property name="authenticationFailureHandler" ref="myLoginFailureHandler"></beans:property>
+        <beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+        <beans:property name="authenticationDetailsSource" ref="myAuthenticationDetailsSource"/>
+    </beans:bean>
+<!-- 自定义from-login Filter 结束  -->
+
+
+<!-- 自定义 logout Filter-->
+    <beans:bean id="myLogoutFilter"
+                class="com.rujianbin.common.web.security.MyLogoutFilter">
+        <!-- 验证成功后的处理-->
+        <beans:constructor-arg index="0" ref="myLogoutSuccessHandle"/>
+        <beans:constructor-arg index="1">
+            <!-- 退出成功后的handler列表 -->
+            <beans:array>
+                <beans:bean id="securityContextLogoutHandler" class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" >
+                    <beans:property name="invalidateHttpSession" value="true"/>
+                </beans:bean>
+                <beans:bean id="cookieClearingLogoutHandler" class="org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler">
+                    <beans:constructor-arg index="0">
+                        <beans:array>
+                            <beans:value>ck_u</beans:value>
+                        </beans:array>
+                    </beans:constructor-arg>
+                </beans:bean>
+                <!--&lt;!&ndash; 加入了开发人员自定义的退出成功处理 &ndash;&gt;-->
+                <!--<beans:bean id="customLogoutSuccessHandler" class="com.cnblogs.yjmyzz.CustomLogoutHandler" />-->
+            </beans:array>
+        </beans:constructor-arg>
+        <!-- 处理登录的action -->
+        <beans:property name="filterProcessesUrl" value="/login/logout"></beans:property>
+    </beans:bean>
+<!-- 自定义 logout Filter 结束-->
 
     <beans:bean id="myLoginSuccessHandler" class="com.rujianbin.common.web.security.MyLoginSuccessHandler">
         <beans:constructor-arg name="defaultTargetUrl" value="/home" />

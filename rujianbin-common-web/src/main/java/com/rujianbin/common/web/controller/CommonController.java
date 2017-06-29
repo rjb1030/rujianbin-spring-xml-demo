@@ -2,10 +2,13 @@ package com.rujianbin.common.web.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import com.rujianbin.common.web.util.RSAUtils;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.imageio.ImageIO;
@@ -14,6 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
+import java.security.KeyPair;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by 汝建斌 on 2017/4/10.
@@ -77,5 +85,21 @@ public class CommonController {
             out.close();
         }
         return null;
+    }
+
+    @RequestMapping("/publicKey")
+    @ResponseBody
+    public Map<String, String> publicKey(HttpServletRequest request){
+        KeyPair keyPair = RSAUtils.generateKeyPair();
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+
+        HttpSession session = request.getSession();
+        session.setAttribute(RSAUtils.PRIVATE_KEY_SESSION_ATTRIBUTE_NAME, privateKey);
+
+        Map<String, String> data = new HashMap<String, String>();
+        data.put("modulus", Base64.encodeBase64String(publicKey.getModulus().toByteArray()));
+        data.put("exponent", Base64.encodeBase64String(publicKey.getPublicExponent().toByteArray()));
+        return data;
     }
 }
