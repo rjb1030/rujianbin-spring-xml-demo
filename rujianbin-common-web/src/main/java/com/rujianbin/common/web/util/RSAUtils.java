@@ -235,22 +235,6 @@ public final class RSAUtils {
 		System.out.println(ori2);
 		//####################  操作加解密    ####################
 
-//		X509EncodedKeySpec x509 = new X509EncodedKeySpec(org.apache.commons.net.util.Base64.decodeBase64("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCTZLQ/VyieBnI26BCb59cLUGOcupH/Ei4tgpYL2B6nnNSQzZ2J89WzaMYZmOefemVxkZlHtB8WHSSB3KDLdXa26MZx50ABgOUKriQinSqKqhjK4wfqmh1M+rx+bPLroUWHGWbNnddsG1rcnXahtM54xQyJPVzht0FNpcg07aXVAQIDAQAB"));
-//		KeyFactory keyf = KeyFactory.getInstance("RSA");
-//		PublicKey publicKey = keyf.generatePublic(x509);
-//		PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(org.apache.commons.net.util.Base64.decodeBase64("MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJNktD9XKJ4GcjboEJvn1wtQY5y6kf8SLi2ClgvYHqec1JDNnYnz1bNoxhmY5596ZXGRmUe0HxYdJIHcoMt1drboxnHnQAGA5QquJCKdKoqqGMrjB+qaHUz6vH5s8uuhRYcZZs2d12wbWtyddqG0znjFDIk9XOG3QU2lyDTtpdUBAgMBAAECgYBZAlKbga4EqE3m/IOzMvG5YmWVa1HpYHhEgXzNUElK3Tm87H67pWWjP52KLb2KoGaMi+mt1IeFWjoGtk7gL2JtrPJmedOJEVI887ArczTVx5Ov4jsvyHZZaaoZGcGthXOMBkg3dn7mXQJ+hwZ+bsbMwbtOQWWLBJPh2UZp1KP2pQJBANhModzFW+gNITWGHrR24mRG4HbZV1vjxFptI9ntc/tszibbivb6Os/eft6U5Nl289suijBCOMmFnlsD0sxr9lcCQQCucloTQAs3clmOXqS3sFh4KRmwD5dnjpZpCL8JOEz+jcbFgmghsLDb3IqZxBVmqc6Ikaz5vTH6+ygLDuEVtQhnAkEA0v7eHng/UTwNmyK8LRqTeXJSYF1fhHnI/tTcVif2LdtTtkAPbSFn4YKPjBz+qMwK0VKy5qSStLKtaOdv6I2gfQJBAJxiOOuu6x8+rJgbsjBVr0mxFq0lnQYh5iasx409YpCEip+/AxjIrBO9RqcICGNrcJIvfdC4Udj8VG5tXUy3aJsCQGBzhvbzHeD9DgzCk/IjeQzyyqR+Lnq3fBB/n9ucufJvyrGyrLeRFipNLgoyJVs4E/t8DapR9p81JVlzElimafE="));
-//		PrivateKey privateKey = keyf.generatePrivate(priPKCS8);
-//
-//		String  after = RSAUtils.encrypt(publicKey, "330406108547");
-
-
-		//		Cipher cipher = Cipher.getInstance("RSA");
-//		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-//		String  after = Base64.encodeBase64String(cipher.doFinal("330406108547".getBytes()));
-//
-//		String after3 = Base64.encodeBase64String(RSAUtils.encrypt(publicKey, "330406108547".getBytes()));
-
-//		System.out.println((RSAUtils.decrypt(privateKey, after)));
 	}
 
 }
