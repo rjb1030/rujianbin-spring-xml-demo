@@ -50,6 +50,7 @@
 
         <access-denied-handler error-page="/common/403"/>
         <csrf disabled="false"/>
+        <http-basic />
         <headers>
             <!-- 是否允许iframe嵌入 DENY,SAMEORIGIN,ALLOW-FROM-->
             <frame-options policy="SAMEORIGIN" />
@@ -66,6 +67,7 @@
     </http>
 
 <!-- 自定义from-login Filter -->
+    <!-- 权限不足的跳转 -->
     <beans:bean id="authenticationEntryPoint"
           class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
         <beans:constructor-arg name="loginFormUrl" value="/login?no-permit" />
@@ -141,20 +143,5 @@
     <beans:bean id="myAuthenticationDetailsSource" class="com.rujianbin.common.web.security.MyAuthenticationDetailsSource" />
 
     <beans:bean id="rjbUserDetailsService" class="com.rujianbin.common.web.security.RjbUserDetailsService"/>
-
-    <!--<beans:bean id="authenticationProcessingFilterEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">-->
-        <!--<beans:constructor-arg name="loginFormUrl" value="/user/login.htm" />-->
-    <!--</beans:bean>-->
-
-    <!-- 配置自定义过滤器 -->
-    <!--<beans:bean id="loginFilter" class="com.test.security.LoginFilter">-->
-        <!--<beans:property name="filterProcessesUrl" value="/login.json"/>-->
-        <!--<beans:property name="usernameParameter" value="userName"/>-->
-        <!--<beans:property name="authenticationManager" ref="authenticationManager"/>-->
-        <!--<beans:property name="authenticationSuccessHandler" ref="authenticationSuccessHandler"/>-->
-        <!--<beans:property name="authenticationFailureHandler" ref="authenticationFailureHandler"/>-->
-    <!--</beans:bean>-->
-
-
 
 </beans:beans>

@@ -70,7 +70,8 @@
     <http pattern="/oauth2-resource/**" create-session="never" entry-point-ref="oauth2AuthenticationEntryPoint"
                                     access-decision-manager-ref="oauth2AccessDecisionManager">
         <anonymous enabled="false"/>
-        <intercept-url pattern="/oauth2-resource/**" access="hasAuthority('p1:f1:read')"/>
+        <intercept-url pattern="/oauth2-resource/resource1" access="hasAuthority('p1:f1:read')"/>
+        <intercept-url pattern="/oauth2-resource/resource2" access="hasAuthority('p1:f1:edit')"/>
         <custom-filter ref="unityResourceServer" before="PRE_AUTH_FILTER"/>
         <access-denied-handler error-page="/common/403"/>
     </http>

@@ -28,7 +28,7 @@
     <!--  OAUTH 2 : AUTHORIZATION SERVER  -->
     <!-- http://127.0.0.1:8080/rujianbin-oauth2/oauth/token?client_id=client_rjb&client_secret=123456&grant_type=client_credentials -->
     <!--  ==============================  -->
-    <oauth2:authorization-server client-details-service-ref="jdbcClientDetailsService" token-services-ref="tokenServices">
+    <oauth2:authorization-server client-details-service-ref="jdbcClientDetailsService" token-services-ref="tokenServices" user-approval-handler-ref="oauthUserApprovalHandler">
         <oauth2:authorization-code />
         <oauth2:implicit/>
         <oauth2:refresh-token />

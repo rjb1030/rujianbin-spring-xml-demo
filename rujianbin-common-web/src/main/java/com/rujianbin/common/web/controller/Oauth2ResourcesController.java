@@ -34,6 +34,13 @@ public class Oauth2ResourcesController {
     @ResponseBody
     public List<String> resource1(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
 
-        return Lists.newArrayList("资源服务器-返回资源 hello world!","api rest success");
+        return Lists.newArrayList("oauth资源请求成功 resource1 hello world!","api rest success");
+    }
+
+    @RequestMapping("resource2")
+    @ResponseBody
+    public List<String> resource2(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+
+        return Lists.newArrayList("oauth资源请求成功 resource2 hello world!","api rest success");
     }
 }
