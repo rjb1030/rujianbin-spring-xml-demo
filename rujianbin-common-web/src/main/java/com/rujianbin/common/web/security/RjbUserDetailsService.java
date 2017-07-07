@@ -3,13 +3,13 @@ package com.rujianbin.common.web.security;
 
 import com.rujianbin.common.web.security.dao.IAuthorityDao;
 import com.rujianbin.common.web.security.dao.IUserDao;
-import com.rujianbin.common.web.security.entity.AuthorityEntity;
-import com.rujianbin.common.web.security.entity.UserEntity;
+import com.rujianbin.principal.api.entity.AuthorityEntity;
+import com.rujianbin.principal.api.entity.UserEntity;
+import com.rujianbin.principal.api.security.RjbSecurityUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

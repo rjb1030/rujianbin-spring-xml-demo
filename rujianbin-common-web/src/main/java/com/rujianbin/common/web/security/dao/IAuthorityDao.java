@@ -1,8 +1,6 @@
 package com.rujianbin.common.web.security.dao;
 
-
-
-import com.rujianbin.common.web.security.entity.AuthorityEntity;
+import com.rujianbin.principal.api.entity.AuthorityEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -28,7 +28,11 @@
     <!--  OAUTH 2 : AUTHORIZATION SERVER  -->
     <!-- http://127.0.0.1:8080/rujianbin-oauth2/oauth/token?client_id=client_rjb&client_secret=123456&grant_type=client_credentials -->
     <!--  ==============================  -->
-    <oauth2:authorization-server client-details-service-ref="jdbcClientDetailsService" token-services-ref="tokenServices" user-approval-handler-ref="oauthUserApprovalHandler">
+    <oauth2:authorization-server client-details-service-ref="jdbcClientDetailsService"
+                                 token-services-ref="tokenServices"
+                                 user-approval-handler-ref="oauthUserApprovalHandler"
+
+                                    >
         <oauth2:authorization-code />
         <oauth2:implicit/>
         <oauth2:refresh-token />
@@ -95,7 +99,7 @@
         <beans:property name="authenticationManager" ref="oauth2AuthenticationManager"/>
     </beans:bean>
 
-    <!--/oauth/token 的http 配置, 用于监听该URL的请求, 核心-->
+    <!--TokenEndpoint  /oauth/token 的http 配置, 用于监听该URL的请求, 核心-->
     <http pattern="/oauth/token" create-session="stateless" authentication-manager-ref="oauth2AuthenticationManager"
           entry-point-ref="oauth2AuthenticationEntryPoint">
         <intercept-url pattern="/oauth/token" access="authenticated" method="POST"/>
@@ -103,6 +107,16 @@
         <http-basic entry-point-ref="oauth2AuthenticationEntryPoint"/>
 
         <custom-filter ref="clientCredentialsTokenEndpointFilter" before="BASIC_AUTH_FILTER"/>
+        <access-denied-handler ref="oauth2AccessDeniedHandler"/>
+        <csrf disabled="true"></csrf>
+    </http>
+
+    <!-- AuthorizationEndpoint 访问授权页面时应用必须是登录状态，故redis-session要和应用配置一致 且create-session属性不能配置，否则加载不了prinpical-->
+    <http pattern="/oauth/authorize"  authentication-manager-ref="oauth2AuthenticationManager"
+          entry-point-ref="oauth2AuthenticationEntryPoint">
+        <intercept-url pattern="/oauth/authorize" access="authenticated"/>
+        <anonymous enabled="false"/>
+        <http-basic entry-point-ref="oauth2AuthenticationEntryPoint"/>
         <access-denied-handler ref="oauth2AccessDeniedHandler"/>
         <csrf disabled="true"></csrf>
     </http>

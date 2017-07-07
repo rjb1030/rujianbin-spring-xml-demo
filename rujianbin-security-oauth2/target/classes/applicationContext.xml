@@ -22,6 +22,9 @@
 	<context:property-placeholder location="classpath*:config/commons.properties"
 								  ignore-resource-not-found="true" ignore-unresolvable="true" />
 
+	<import resource="application-freemarker.xml"/>
+	<import resource="applicationContext-redis-springdata.xml"/>
+
 	<!-- 组件扫描 -->
 	<context:component-scan base-package="com.rujianbin.security.oauth2">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
@@ -40,5 +43,12 @@
 		<property name="checkoutTimeout" value="${jdbc.connection_pools.checkout_timeout}" />
 	</bean>
 
+
+	<!-- 类中使用了@Configuration等注解，所以需要开启注解配置<context:annotation-config/> -->
+	<context:annotation-config/>
+	<bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+		<!-- 过期时间10分钟 -->
+		<property name="maxInactiveIntervalInSeconds" value="600"></property>
+	</bean>
 
 </beans>

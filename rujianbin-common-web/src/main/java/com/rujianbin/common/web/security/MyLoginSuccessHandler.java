@@ -1,5 +1,6 @@
 package com.rujianbin.common.web.security;
 
+import com.rujianbin.principal.api.security.RjbSecurityUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 

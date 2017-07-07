@@ -1,5 +1,6 @@
 package com.rujianbin.common.web.security;
 
+import com.rujianbin.principal.api.security.MyWebAuthenticationDetails;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;

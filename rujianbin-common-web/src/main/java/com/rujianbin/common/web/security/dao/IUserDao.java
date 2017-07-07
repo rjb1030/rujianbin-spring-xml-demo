@@ -1,7 +1,7 @@
 package com.rujianbin.common.web.security.dao;
 
 
-import com.rujianbin.common.web.security.entity.UserEntity;
+import com.rujianbin.principal.api.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

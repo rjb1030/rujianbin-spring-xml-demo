@@ -1,5 +1,6 @@
 package com.rujianbin.common.web.security;
 
+import com.rujianbin.principal.api.security.MyWebAuthenticationDetails;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

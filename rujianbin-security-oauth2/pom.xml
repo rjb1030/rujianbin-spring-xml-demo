@@ -15,6 +15,10 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>rujianbin.spring-xml</groupId>
+            <artifactId>rujianbin-principal-api</artifactId>
+        </dependency>
 
         <!-- middleware search-->
         <dependency>
@@ -312,6 +316,11 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>rujianbin.spring-xml</groupId>
+            <artifactId>rujianbin-principal-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

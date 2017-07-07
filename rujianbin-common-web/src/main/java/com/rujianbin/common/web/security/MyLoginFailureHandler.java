@@ -1,6 +1,7 @@
 package com.rujianbin.common.web.security;
 
 
+import com.rujianbin.principal.api.security.MyWebAuthenticationDetails;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

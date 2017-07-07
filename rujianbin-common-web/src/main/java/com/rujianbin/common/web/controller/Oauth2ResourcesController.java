@@ -1,7 +1,6 @@
 package com.rujianbin.common.web.controller;
 
 import com.google.common.collect.Lists;
-import com.rujianbin.common.web.security.RjbSecurityUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,9 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by rujianbin@xinyunlian.com on 2017/5/15.

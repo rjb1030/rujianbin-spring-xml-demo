@@ -37,6 +37,7 @@
                         <div class="text-section">
                             <h1>Dashboard1</h1>
                             <p>This is a quick overview of some features</p>
+                            <p><a target="_blank" href="/rujianbin-thirdparty-web/common/oauth2" style="color: red">跳转第三方平台</a></p>
                         </div>
                         <ul class="states">
                             <li class="error">Error : This is an error placed text message.</li>
