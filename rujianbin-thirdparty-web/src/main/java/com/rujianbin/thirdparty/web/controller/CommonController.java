@@ -3,6 +3,7 @@ package com.rujianbin.thirdparty.web.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rujianbin.principal.api.entity.UserEntity;
 import com.rujianbin.thirdparty.web.restTemplate.IOAuth2RestTemplate;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -40,10 +41,15 @@ public class CommonController {
         System.out.println("code--->"+code);
 
         model.put("name","rujianbin-thirdparty-web");
-        OAuth2RestTemplate template = oAuth2RestTemplate.getTemplate(code);
-        List<UserEntity> userList = getForObjectList(template,userInfoUri,new ParameterizedTypeReference<List<UserEntity>>(){});
-        List<UserEntity> userList2 = getForObjectList(template,userInfoUri,new ParameterizedTypeReference<List<UserEntity>>(){});
-        model.put("userinfo",new ObjectMapper().writeValueAsString(userList));
+        if(StringUtils.isEmpty(code)){
+            model.put("userinfo","拒绝授权");
+        }else{
+            OAuth2RestTemplate template = oAuth2RestTemplate.getTemplate(code);
+            List<UserEntity> userList = getForObjectList(template,userInfoUri,new ParameterizedTypeReference<List<UserEntity>>(){});
+            List<UserEntity> userList2 = getForObjectList(template,userInfoUri,new ParameterizedTypeReference<List<UserEntity>>(){});
+            model.put("userinfo",new ObjectMapper().writeValueAsString(userList));
+        }
+
         return "index";
     }
 
