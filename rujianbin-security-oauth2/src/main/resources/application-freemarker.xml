@@ -29,7 +29,7 @@
         <property name="freemarkerVariables"><!--设置一些常用的全局变量-->
             <map>
                 <!--<entry key="xml_escape" value-ref="fmXmlEscape" />-->
-                <entry key="webContext" value="/rujianbin-security-oauth2"></entry>
+                <entry key="webContext" value="/rujianbin-oauth2"></entry>
 
             </map>
         </property>

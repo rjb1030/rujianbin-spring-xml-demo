@@ -13,6 +13,11 @@
     <dependencies>
 
 
+        <dependency>
+            <groupId>rujianbin.spring-xml</groupId>
+            <artifactId>rujianbin-principal-api</artifactId>
+        </dependency>
+
         <!-- middleware search-->
         <dependency>
             <groupId>org.apache.lucene</groupId>
@@ -48,6 +53,16 @@
             <artifactId>jedis</artifactId>
         </dependency>
 
+
+        <!-- utils httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+        </dependency>
 
         <!-- spring data -->
         <dependency>
@@ -289,6 +304,11 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>rujianbin.spring-xml</groupId>
+            <artifactId>rujianbin-principal-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

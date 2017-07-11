@@ -31,7 +31,8 @@
     <oauth2:authorization-server client-details-service-ref="jdbcClientDetailsService"
                                  token-services-ref="tokenServices"
                                  user-approval-handler-ref="oauthUserApprovalHandler"
-
+                                 user-approval-page="oauth2/confirm_access"
+                                 error-page="oauth2/error"
                                     >
         <oauth2:authorization-code />
         <oauth2:implicit/>
@@ -112,6 +113,7 @@
     </http>
 
     <!-- AuthorizationEndpoint 访问授权页面时应用必须是登录状态，故redis-session要和应用配置一致 且create-session属性不能配置，否则加载不了prinpical-->
+    <!-- 配置一个CookieSerializerConfig 使session的cookie在根目录，则不同context可以互通-->
     <http pattern="/oauth/authorize"  authentication-manager-ref="oauth2AuthenticationManager"
           entry-point-ref="oauth2AuthenticationEntryPoint">
         <intercept-url pattern="/oauth/authorize" access="authenticated"/>
@@ -120,5 +122,6 @@
         <access-denied-handler ref="oauth2AccessDeniedHandler"/>
         <csrf disabled="true"></csrf>
     </http>
+
 
 </beans:beans>

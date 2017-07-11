@@ -4,6 +4,7 @@
 
 <body>
 ${name}
+${userinfo}
 </body>
 
 </html>

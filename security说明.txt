@@ -1,4 +1,4 @@
-以获取token或登录为例，filter链执行顺序
+以client类型获取token或登录为例，filter链执行顺序
     SecurityContextPersistenceFilter   (SECURITY_CONTEXT_FILTER)
     ConcurrentSessionFilter (常规登录  CONCURRENT_SESSION_FILTER)
     WebAsyncManagerIntegrationFilter
@@ -19,7 +19,11 @@
 
 
 申请授权
-    AuthorizationEndpoint
+    AuthorizationEndpoint获取code
+    TokenEndpoint 带上code获取token
+
+token验证
+OAuth2AuthenticationProcessingFilter
 
 
 
