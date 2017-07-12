@@ -36,9 +36,9 @@
                                     >
         <oauth2:authorization-code authorization-code-services-ref="authorizationCodeServices"/>
         <oauth2:implicit/>
-        <oauth2:refresh-token />
+        <oauth2:refresh-token/>
         <oauth2:client-credentials/>
-        <oauth2:password />
+        <oauth2:password/>
     </oauth2:authorization-server>
 
     <!-- authorization code 存储数据库 默认是存储内存-->
