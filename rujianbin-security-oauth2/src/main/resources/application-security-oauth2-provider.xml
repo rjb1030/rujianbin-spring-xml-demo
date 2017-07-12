@@ -34,12 +34,17 @@
                                  user-approval-page="oauth2/confirm_access"
                                  error-page="oauth2/error"
                                     >
-        <oauth2:authorization-code />
+        <oauth2:authorization-code authorization-code-services-ref="authorizationCodeServices"/>
         <oauth2:implicit/>
         <oauth2:refresh-token />
         <oauth2:client-credentials/>
         <oauth2:password />
     </oauth2:authorization-server>
+
+    <!-- authorization code 存储数据库 默认是存储内存-->
+    <beans:bean id="authorizationCodeServices" class="org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices">
+           <beans:constructor-arg index="0" ref="dataSource"/>
+    </beans:bean>
 
     <!-- 使用数据库配置clientdetails和token   ClientDetailsService 配置, 使用JdbcClientDetailsService, 也需要提供dataSource-->
     <beans:bean id="jdbcClientDetailsService"
