@@ -62,7 +62,7 @@ public class CommonController {
             }
         }
         model.put("client_id","client_rjb");
-        model.put("grant_type","authorization_code");
+//        model.put("grant_type","authorization_code");
         model.put("redirect_uri","http://127.0.0.1:8080/rujianbin-thirdparty-web/common/index");//这个跳转地址要和oauth_client_details的对应client的web_server_direct_uri一致
         model.put("response_type","code");
         return "redirect:http://127.0.0.1:8080/rujianbin-oauth2/oauth/authorize";
