@@ -10,14 +10,17 @@
     <link rel="stylesheet" href="${webContext}/public/css/login/login.css">
     <script type="text/javascript" src="${webContext}/public/js/jquery/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="${webContext}/public/js/encryption/encryption.js"></script>
+    <script type="text/javascript" src="${webContext}/public/js/google/ga.js"></script>
     <script type="text/javascript">
         $(function(){
             $('#kaptcha').click(function(){
+                ga('send','event','button', 'click', '登录页-验证码',1);
                         var _t='common/kaptcha?'+new Date().getTime();
                         $(this).attr("src",_t);
             });
 
             $("#submitBtn").click(function(){
+                ga('send','event','button', 'click', '登录页-提交',1);
                 $.get("common/publicKey?"+new Date().getTime(),function(data){
                     var modulus = data.modulus;
                     var exponent = data.exponent;
