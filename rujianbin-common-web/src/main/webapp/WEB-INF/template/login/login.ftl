@@ -14,6 +14,7 @@
     <script type="text/javascript">
         $(function(){
             $('#kaptcha').click(function(){
+                ga('set', 'dimension1', '浙江省-宁波市-鄞州区');
                 ga('send','event','button', 'click', '登录页-验证码',1);
                         var _t='common/kaptcha?'+new Date().getTime();
                         $(this).attr("src",_t);
