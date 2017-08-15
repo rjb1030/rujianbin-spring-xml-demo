@@ -22,6 +22,9 @@
     AuthorizationEndpoint获取code
     TokenEndpoint 带上code获取token
 
+    CheckTokenEndpoint  令牌校验
+    WhitelabelApprovalEndpoint  授权页面
+
 token验证
 OAuth2AuthenticationProcessingFilter
 
