@@ -11,6 +11,10 @@
              http://www.springframework.org/schema/security/oauth2
              http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
 
+    <!-- 如果要oauth获取当前登录人,则必须登录应用和auth server共享session。此时/oauth/authorize时会将当前登录的Principal和token一起关联存入
+         而要做到session共享，除了配置相同redis session外，cookie的path要设置在根目录
+     -->
+
 
     <!-- ==============================================================================
        验证token从auth server验证，auth server和recesources server分离

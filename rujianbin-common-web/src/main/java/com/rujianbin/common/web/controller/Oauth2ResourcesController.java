@@ -46,6 +46,7 @@ public class Oauth2ResourcesController {
             current.setUsername(rjbSecurityUser.getUsername());
             current.setAuthorityEntityList(rjbSecurityUser.getAuthorityEntityList());
         }else{
+            //远程验证token时 返回的authentication是转换过的
             current = new UserEntity();
             current.setUsername((String)authentication.getPrincipal());
             List<AuthorityEntity> list = Lists.newArrayList();
