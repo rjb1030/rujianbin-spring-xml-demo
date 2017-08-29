@@ -33,6 +33,7 @@
                                  user-approval-handler-ref="oauthUserApprovalHandler"
                                  user-approval-page="oauth2/confirm_access"
                                  error-page="oauth2/error"
+                                 check-token-enabled="true"
                                     >
         <oauth2:authorization-code authorization-code-services-ref="authorizationCodeServices"/>
         <oauth2:implicit/>
@@ -87,6 +88,7 @@
     <!--oauth2 AuthenticationManager配置; -->
     <authentication-manager id="oauth2AuthenticationManager">
         <authentication-provider user-service-ref="clientDetailsUserService"/>
+
     </authentication-manager>
 
 
@@ -128,5 +130,10 @@
         <csrf disabled="true"></csrf>
     </http>
 
+    <http pattern="/oauth/check_token" authentication-manager-ref="oauth2AuthenticationManager"
+          entry-point-ref="oauth2AuthenticationEntryPoint">
+        <intercept-url pattern="/oauth/authorize" access="permitAll"/>
+        <csrf disabled="true"></csrf>
+    </http>
 
 </beans:beans>

@@ -26,7 +26,8 @@
     WhitelabelApprovalEndpoint  授权页面
 
 token验证
-OAuth2AuthenticationProcessingFilter
+OAuth2AuthenticationProcessingFilter  (访问资源时也会经过该filter验证)
+CheckTokenEndpoint  (验证token的请求地址)
 
 
 

@@ -43,8 +43,21 @@
         <beans:property name="refreshTokenValiditySeconds" value="300" />
     </beans:bean>
 
+
+    <beans:bean id="remoteTokenServices" class="org.springframework.security.oauth2.provider.token.RemoteTokenServices">
+        <beans:property name="checkTokenEndpointUrl" value="http://127.0.0.1:8080/rujianbin-oauth2/oauth/check_token"/>
+        <beans:property name="clientId" value=""/>
+        <beans:property name="clientSecret" value=""/>
+    </beans:bean>
+
+    <beans:bean id="oauth2AuthenticationManager" class="org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager">
+        <beans:property name="tokenServices" ref="remoteTokenServices"/>
+        <!--<beans:property name="clientDetailsService" ref="jdbcClientDetailsService"/>-->   <!-- 如果不验证scope则无需注入，否则需要自定义clientDetailsService-->
+    </beans:bean>
+
+
     <!-- resource-id要和oauth_client_details表中的resources-id匹配，否则会提示Invalid token does not contain resource id (xxxxx)-->
-    <oauth2:resource-server id="unityResourceServer" resource-id="rujianbin-oauth2-resource" token-services-ref="tokenServices"/>
+    <oauth2:resource-server id="unityResourceServer" resource-id="rujianbin-oauth2-resource"  authentication-manager-ref="oauth2AuthenticationManager"/>
 
     <beans:bean id="oauth2AuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <beans:property name="realmName" value="rujianbin-resources-server" />
@@ -68,7 +81,7 @@
 
     <!--use-expressions="true"就是增加投票器WebExpressionVoter -->
     <http pattern="/oauth2-resource/**" create-session="never" entry-point-ref="oauth2AuthenticationEntryPoint"
-                                    access-decision-manager-ref="oauth2AccessDecisionManager">
+                                    access-decision-manager-ref="oauth2AccessDecisionManager" >
         <anonymous enabled="false"/>
         <intercept-url pattern="/oauth2-resource/resource1" access="hasAuthority('p1:f1:read')"/>
         <intercept-url pattern="/oauth2-resource/resource2" access="hasAuthority('p1:f1:edit')"/>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
+             xsi:schemaLocation="
+             http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security-4.2.xsd
+             http://www.springframework.org/schema/security/oauth2
+             http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
+
+
+    <!-- ==============================================================================
+       因auth server服务器check_token为任意访问，所以无需设置clientId，clientSecret
+    ==================================================================================== -->
+    <beans:bean id="remoteTokenServices" class="org.springframework.security.oauth2.provider.token.RemoteTokenServices">
+        <beans:property name="checkTokenEndpointUrl" value="http://127.0.0.1:8080/rujianbin-oauth2/oauth/check_token"/>
+        <beans:property name="clientId" value=""/>
+        <beans:property name="clientSecret" value=""/>
+    </beans:bean>
+
+    <beans:bean id="oauth2AuthenticationManager" class="org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager">
+        <beans:property name="tokenServices" ref="remoteTokenServices"/>
+        <!--<beans:property name="clientDetailsService" ref="jdbcClientDetailsService"/>-->   <!-- 如果不验证scope则无需注入，否则需要自定义clientDetailsService-->
+    </beans:bean>
+
+
+    <!-- ==============================================================================
+       resource-id要和oauth_client_details表中的resources-id匹配，否则会提示Invalid token does not contain resource id (xxxxx)
+    ==================================================================================== -->
+    <oauth2:resource-server id="unityResourceServer" resource-id="rujianbin-oauth2-resource"  authentication-manager-ref="oauth2AuthenticationManager"/>
+
+
+
+
+</beans:beans>

@@ -7,7 +7,7 @@
       http://www.springframework.org/schema/security
       http://www.springframework.org/schema/security/spring-security-4.2.xsd ">
 
-    <beans:import resource="application-security-oauth2-resources.xml"/>
+    <beans:import resource="classpath*:oauth2/security-oauth2-resources.xml"/>
 
     <!-- 静态资源，不用权限 -->
     <http pattern="/public/**" security="none"/>

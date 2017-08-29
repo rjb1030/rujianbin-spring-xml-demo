@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
+             xsi:schemaLocation="
+             http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security-4.2.xsd
+             http://www.springframework.org/schema/security/oauth2
+             http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
+
+
+    <!-- ==============================================================================
+       验证token从auth server验证，auth server和recesources server分离
+    ==================================================================================== -->
+    <!--<beans:import resource="classpath*:oauth2/security-oauth2-token-local.xml"/>-->
+
+
+    <!-- ==============================================================================
+       token本地验证，需要配置oauth2 datasource
+    ==================================================================================== -->
+    <beans:import resource="classpath*:oauth2/security-oauth2-token-remote.xml"/>
+
+
+    <!-- ==============================================================================
+       访问资源无权限时，respones自定义设置
+    ==================================================================================== -->
+    <beans:bean id="oauth2AuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <beans:property name="realmName" value="rujianbin-resources-server" />
+    </beans:bean>
+    <!-- ==============================================================================
+       未授权情况下的自定义处理
+    ==================================================================================== -->
+    <beans:bean id="oauth2AccessDeniedHandler"
+                class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler"/>
+
+
+    <!-- ==============================================================================
+       Oauth2投票机制，只有全部通过才能访问资源。OAuth2AuthenticationManager里验证
+    ==================================================================================== -->
+    <beans:bean id="oauth2AccessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter"/>
+                <beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+                <beans:bean class="org.springframework.security.access.vote.RoleVoter" />
+                <beans:bean class="org.springframework.security.web.access.expression.WebExpressionVoter" />
+            </beans:list>
+        </beans:constructor-arg>
+    </beans:bean>
+
+
+
+    <!-- ==============================================================================
+       use-expressions="true"就是增加投票器WebExpressionVoter
+    ==================================================================================== -->
+    <http pattern="/oauth2-resource/**" create-session="never" entry-point-ref="oauth2AuthenticationEntryPoint"
+                                    access-decision-manager-ref="oauth2AccessDecisionManager" >
+        <anonymous enabled="false"/>
+        <intercept-url pattern="/oauth2-resource/resource1" access="hasAuthority('p1:f1:read')"/>
+        <intercept-url pattern="/oauth2-resource/resource2" access="hasAuthority('p1:f1:edit')"/>
+        <custom-filter ref="unityResourceServer" before="PRE_AUTH_FILTER"/>
+        <access-denied-handler error-page="/common/403"/>
+    </http>
+
+
+
+
+</beans:beans>

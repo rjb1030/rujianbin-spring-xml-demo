@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
+             xsi:schemaLocation="
+             http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security-4.2.xsd
+             http://www.springframework.org/schema/security/oauth2
+             http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
+
+
+    <beans:bean id="oauth2DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <beans:property name="driverClass" value="${jdbc.oauth2.driver}" />
+        <beans:property name="jdbcUrl" value="${jdbc.oauth2.url}" />
+        <beans:property name="user" value="${jdbc.oauth2.username}" />
+        <beans:property name="password" value="${jdbc.oauth2.password}" />
+        <beans:property name="initialPoolSize" value="${jdbc.oauth2.connection_pools.initial_pool_size}" />
+        <beans:property name="minPoolSize" value="${jdbc.oauth2.connection_pools.min_pool_size}" />
+        <beans:property name="maxPoolSize" value="${jdbc.oauth2.connection_pools.max_pool_size}" />
+        <beans:property name="maxIdleTime" value="${jdbc.oauth2.connection_pools.max_idle_time}" />
+        <beans:property name="acquireIncrement" value="${jdbc.oauth2.connection_pools.acquire_increment}" />
+        <beans:property name="checkoutTimeout" value="${jdbc.oauth2.connection_pools.checkout_timeout}" />
+    </beans:bean>
+
+    <beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.JdbcTokenStore">
+        <beans:constructor-arg ref="oauth2DataSource" />
+    </beans:bean>
+
+    <beans:bean id="jdbcClientDetailsService"
+                class="org.springframework.security.oauth2.provider.client.JdbcClientDetailsService">
+        <beans:constructor-arg ref="oauth2DataSource" />
+    </beans:bean>
+
+    <!--TokenServices; 需要注入TokenStore-->
+    <beans:bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+        <beans:property name="tokenStore" ref="tokenStore" />
+        <beans:property name="supportRefreshToken" value="true" />
+        <beans:property name="clientDetailsService" ref="jdbcClientDetailsService"/>
+        <beans:property name="accessTokenValiditySeconds" value="60" />
+        <beans:property name="refreshTokenValiditySeconds" value="300" />
+    </beans:bean>
+
+    <!-- ==============================================================================
+       resource-id要和oauth_client_details表中的resources-id匹配，否则会提示Invalid token does not contain resource id (xxxxx)
+    ==================================================================================== -->
+    <oauth2:resource-server id="unityResourceServer" resource-id="rujianbin-oauth2-resource"  token-services-ref="tokenServices"/>
+
+
+
+
+</beans:beans>

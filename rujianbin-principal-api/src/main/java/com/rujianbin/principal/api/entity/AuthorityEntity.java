@@ -12,6 +12,12 @@ public class AuthorityEntity implements Serializable{
 
     private String authorityCode;
 
+
+    public AuthorityEntity(){}
+
+    public AuthorityEntity(String authorityCode){
+        this.authorityCode=authorityCode;
+    }
     public Long getId() {
         return id;
     }
