@@ -50,3 +50,7 @@ AuthenticationProvider
     抽象类：AbstractUserDetailsAuthenticationProvider
     实现类：DaoAuthenticationProvider（注入了UserDetailsService和PasswordEncoder用于用户名查询及密码验证）
 
+
+
+
+
