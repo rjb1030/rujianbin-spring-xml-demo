@@ -8,9 +8,9 @@
   <modules>
       <module>rujianbin-security-oauth2</module>
     <module>rujianbin-common-web</module>
-      <module>../rujianbin-thirdparty-web</module>
     <module>rujianbin-thirdparty-web</module>
       <module>rujianbin-principal-api</module>
+      <module>rujianbin-jdk-test</module>
   </modules>
   <packaging>pom</packaging>
 

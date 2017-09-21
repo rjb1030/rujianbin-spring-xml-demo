@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by 汝建斌 on 2017/4/1.
  */
-public class RoleEntity implements Serializable{
+public class RoleEntity implements Serializable,Comparable<RoleEntity>{
 
     private static final long serialVersionUID = 1635767850110589130L;
     private Long id;
@@ -26,5 +26,15 @@ public class RoleEntity implements Serializable{
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    @Override
+    public int compareTo(RoleEntity o) {
+        if(o==null){
+            return -1;
+        }else if(this.id.intValue()==o.getId().intValue()){
+            return 0;
+        }
+        return this.id>o.getId()?1:-1;
     }
 }
