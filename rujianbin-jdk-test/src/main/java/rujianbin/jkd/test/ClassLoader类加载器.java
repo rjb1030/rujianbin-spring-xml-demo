@@ -15,6 +15,13 @@ import java.sql.DriverManager;
 
 /**
  * Created by rujianbin@xinyunlian.com on 2017/9/21.
+ * 由子ClassLoader加载的Class  可以依赖   由父ClassLoader加载的class。反过来就不行
+ * 举例：
+ *      java.sql.DriverManager，java.sql.Driver是核心类库的类，由BootstrapClassLoader加载
+ *      而在DriverManager.getConnection方法中需要使用驱动com.mysql.jdbc.Driver 该驱动实现类是第三方组件，由AppClassLoader加载
+ *      故正常情况下DriverManager.getConnection方法中是无法new出或依赖到Driver实现类的（因为BootstrapClassLoader只能加载核心类库的class文件）
+ *      不过可以通过Class.forName并传入线程上下文类加载器（AppClassLoader），加载到Driver实现类
+ *
  */
 public class ClassLoader类加载器 {
 
