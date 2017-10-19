@@ -14,9 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.security.interfaces.RSAPrivateKey;
 
-/**
- * Created by rujianbin@xinyunlian.com on 2017/6/29.
- */
+
 public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private boolean postOnly = true;

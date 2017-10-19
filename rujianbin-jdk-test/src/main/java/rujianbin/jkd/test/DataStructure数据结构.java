@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Created by rujianbin@xinyunlian.com on 2017/9/21.
+ * Created by rujianbin@.com on 2017/9/21.
  */
 public class DataStructure数据结构 {
 

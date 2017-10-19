@@ -17,9 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-/**
- * Created by rujianbin@xinyunlian.com on 2017/5/15.
- */
+
 @Controller
 @RequestMapping("/oauth2-resource")
 public class Oauth2ResourcesController {

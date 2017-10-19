@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Created by rujianbin@xinyunlian.com on 2017/7/6.
+ * Created by rujianbin@.com on 2017/7/6.
  */
 @Controller
 @RequestMapping("/common")

@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 
 /**
- * Created by rujianbin@xinyunlian.com on 2017/9/20.
+ * Created by rujianbin@.com on 2017/9/20.
  */
 public class Reflect抽象类和接口 {
     public static void main(String[] args) {

@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by rujianbin@xinyunlian.com on 2017/5/15.
+ * Created by rujianbin@.com on 2017/5/15.
  */
 
 @ContextConfiguration({"classpath:applicationContext.xml","classpath:application-security.xml"})

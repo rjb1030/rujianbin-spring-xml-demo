@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by rujianbin@xinyunlian.com on 2017/5/9.
+ * Created by rujianbin@.com on 2017/5/9.
  */
 @Component
 public class Oauth2RestTemplateImpl implements IOAuth2RestTemplate {
